@@ -33,4 +33,4 @@ jobs:
               id: hello_world
 
             - name: Echo Greeting's time
-              run: echo The time was ${{steps.hello_world.outputs.time}}
+              run: echo "The time was ${{steps.hello_world.outputs.time}}"
