@@ -1,0 +1,31 @@
+name: Custom Action - Docker - Print Message
+
+on:
+  push:
+    paths:
+      - '.github/actions/print-message-container-action/**'
+      - '.github/workflows/custom-action-docker-print-message.yml'
+  workflow_dispatch:
+    inputs:
+      message:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Message to print'
+        # Default value if no value is explicitly provided
+        default: 'Hello, World!'
+        # Input has to be provided for the workflow to run
+        required: true
+        # The data type of the input
+        type: string
+
+jobs:
+  hello-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Hello Docker Action
+        uses: ./.github/actions/print-message-container-action
+        with:
+          message: "${{ inputs.message }}"

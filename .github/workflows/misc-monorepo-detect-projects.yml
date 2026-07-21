@@ -1,0 +1,84 @@
+name: Detect Changes in Monorepo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/monorepo/**' # Only monitor changes inside the monorepo folder
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/monorepo/**' # Only monitor changes inside the monorepo folder
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Fetch commit hashes
+        run: |
+          # Fetch the previous commit hash dynamically using git
+          git fetch --prune --unshallow
+          PREVIOUS_COMMIT=$(git log --format="%H" -n 2 | tail -n 1)
+          CURRENT_COMMIT=${{ github.sha }}
+          echo "Previous commit: $PREVIOUS_COMMIT"
+          echo "Current commit: $CURRENT_COMMIT"
+
+      - name: Get list of changed projects
+        id: changed_projects
+        run: |
+          # Get the list of changed files between the previous and current commit
+          CHANGED_FILES=$(git diff --name-only $PREVIOUS_COMMIT $CURRENT_COMMIT)
+          echo "Changed files: $CHANGED_FILES"
+
+          # List all directories (projects) in the 'monorepo' folder
+          PROJECTS=$(ls -d src/monorepo/*/)
+          echo "Projects found in the monorepo: $PROJECTS"
+
+          # Initialize an empty string for changed projects
+          CHANGED_PROJECTS=""
+
+          # Iterate over each project directory and check if any changed files belong to that project
+          for PROJECT in $PROJECTS; do
+            if echo "$CHANGED_FILES" | grep -q "^$PROJECT"; then
+              echo "$PROJECT has changes."
+              CHANGED_PROJECTS="$CHANGED_PROJECTS$PROJECT "
+            fi
+          done
+
+          # Output the list of changed projects
+          echo "Changed projects: $CHANGED_PROJECTS"
+
+          # Set the output using environment files instead of set-output
+          echo "changed_projects=$CHANGED_PROJECTS" >> $GITHUB_ENV
+
+      - name: Display Changed Projects
+        run: |
+          # Use the environment variable to check the changed projects
+          if [[ -z "${{ env.changed_projects }}" ]]; then
+            echo "No projects detected with changes."
+          else
+            echo "The following projects have changes that triggered the workflow:"
+            echo "${{ env.changed_projects }}"
+          fi
+
+      - name: Run tasks for changed projects
+        run: |
+          # Loop through each changed project directory
+          for PROJECT in ${{ env.changed_projects }}; do
+            PROJECT_NAME="${PROJECT%/}"  # Remove trailing slash from project name
+            echo "Running tasks for $PROJECT_NAME..."
+
+            # Navigate to the project and run your tasks (e.g., lint, test, build)
+            cd $PROJECT_NAME
+            npm install
+            npm run lint
+            npm run test
+            npm run build
+            cd ..
+          done

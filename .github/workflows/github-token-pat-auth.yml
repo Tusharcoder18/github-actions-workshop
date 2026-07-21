@@ -1,0 +1,37 @@
+name: GitHub Token - PAT Auth
+
+on:
+  workflow_dispatch:
+
+jobs:
+  pat-discussion-access:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Authenticate using PAT
+        run: echo "${{ secrets.PERSONAL_ACCESS_TOKEN }}" | gh auth login --with-token
+
+      - name: Attempt to create discussion (should succeed with correct scope)
+        id: create_discussion
+        run: |
+          set -e
+          RESPONSE=$(gh api -X POST repos/${{ github.repository }}/discussions \
+            -F title="Test Discussion from Workflow" \
+            -F body="Testing permissions of PAT token in GH Actions" 2>&1 || true)
+          echo "API response:"
+          echo "$RESPONSE"
+          echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+
+      - name: Success if discussion creation succeeded
+        if: steps.create_discussion.outputs.response && !contains(steps.create_discussion.outputs.response, 'Resource not accessible by integration')
+        run: |
+          echo "Discussion creation succeeded as expected. Your PAT has 'discussions: write' scope."
+
+      - name: Fail if discussion creation failed
+        if: contains(steps.create_discussion.outputs.response, 'Resource not accessible by integration')
+        run: |
+          echo "Discussion creation failed. Your PAT might be missing 'discussions: write' scope or Discussions are not enabled."
+          exit 1

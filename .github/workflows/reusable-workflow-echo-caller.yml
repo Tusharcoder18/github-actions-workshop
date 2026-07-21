@@ -1,0 +1,20 @@
+name: Reusable Workflow Echo Caller
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/reusable-workflow-echo-caller.yml'
+jobs:
+  say-hello:
+    uses: ./.github/workflows/reusable-workflow-echo.yml
+    with:
+      my-input: 'Hello, world!'
+  say-hello-1:
+    uses: ./.github/workflows/reusable-workflow-echo.yml
+    with:
+      my-input: 'Good bye!'
+      # say-goodbye:
+  #   uses: prasadhonrao/github-actions-workshop-shared-repo/.github/workflows/reusable-workflow-echo.yml
+  #   with:
+  #     my-input: 'Goodbye!'

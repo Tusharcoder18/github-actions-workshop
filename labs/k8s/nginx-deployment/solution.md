@@ -1,0 +1,53 @@
+## Solution: NGINX Deployment on AKS Using ARC Runner
+
+```yaml
+name: K8s ARC Runner NGINX
+
+on:
+  push:
+    paths:
+      - '.github/workflows/k8s-arc-runner-nginx.yml'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: arc-runner-set
+    steps:
+      # Step 1: Checkout the code to get any necessary configuration files
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+
+      # Step 2: Set up kubectl
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          kubectl-version: 'v1.25.0'
+
+      # Step 3: Configure kubectl to connect to AKS
+      - name: Configure kubectl
+        uses: azure/aks-set-context@v1
+        with:
+          resource-group: 'arc-lab-rg'
+          cluster-name: 'arc-lab-cluster'
+          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+
+      # Step 4: Deploy an existing Docker image (e.g., nginx) to AKS
+      - name: Deploy NGINX to AKS
+        run: |
+          kubectl create deployment nginx-deployment --image=nginx:latest
+          kubectl expose deployment nginx-deployment --port=80 --target-port=80 --type=LoadBalancer
+          kubectl rollout status deployment/nginx-deployment
+
+      # Step 5: Verify that the deployment was successful by checking the pods and service
+      - name: Verify Deployment
+        run: |
+          kubectl get pods
+          kubectl get services
+          kubectl describe deployment nginx-deployment
+
+      # Optional: Clean up the deployment after the demo
+      # - name: Clean up deployment
+      #   run: |
+      #     kubectl delete deployment nginx-deployment
+      #     kubectl delete service nginx-deployment
+```

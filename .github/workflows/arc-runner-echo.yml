@@ -1,0 +1,13 @@
+name: ARC Runner - Echo
+
+on:
+  push:
+    paths:
+      - '.github/workflows/arc-runner-echo.yml'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: arc-runner-set
+    steps:
+      - run: echo "🎉 This job uses runner scale set runners!"
