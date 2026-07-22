@@ -1,0 +1,14 @@
+name: Intro - Repository Dispatch Trigger
+
+on:
+    workflow_dispatch:
+    repository_dispatch:
+        types: [api-trigger]
+
+jobs:
+    execute:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Echo the message
+              run: echo "This workflow was triggered via HTTP using repository dispatch"
