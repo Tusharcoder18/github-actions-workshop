@@ -1,0 +1,31 @@
+name: Runner - Ubuntu/Windows/MacOS Latest
+
+on: workflow_dispatch
+
+jobs:
+    ubuntu-run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Display OS Information
+              run: |
+                echo "This runner's name is ${{runner.name}}"
+                echo "This runner's os is ${{runner.os}}"
+                echo "This runner's env is ${{runner.environment}}"
+
+    windows-run:
+        runs-on: windows-latest
+        steps:
+            - name: Display OS Information
+              run: |
+                echo "This runner's name is ${{runner.name}}"
+                echo "This runner's os is ${{runner.os}}"
+                echo "This runner's env is ${{runner.environment}}"
+
+    macos-run:
+        runs-on: macos-latest
+        steps:
+            - name: Display OS Information
+              run: |
+                echo "This runner's name is ${{runner.name}}"
+                echo "This runner's os is ${{runner.os}}"
+                echo "This runner's env is ${{runner.environment}}"
