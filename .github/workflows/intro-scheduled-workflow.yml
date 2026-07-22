@@ -1,0 +1,17 @@
+name: Intro - Scheduled Workflow
+
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: '30 10 * * *'
+    push:
+        paths:
+            - '.github/workflows/intro-scheduled-workflow.yml'
+    
+jobs:
+    execute:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Display current date and time
+              run: echo "The current date is $(date)"
