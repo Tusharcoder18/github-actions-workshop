@@ -1,0 +1,27 @@
+name: Deployment Protection Rules
+
+on: workflow_dispatch
+
+jobs:
+    deploy-to-dev:
+        runs-on: ubuntu-latest
+        environment: dev
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Deploy to dev
+              run: echo "Deploying to the dev environment"
+
+    deploy-to-prod:
+        needs: deploy-to-dev
+        runs-on: ubuntu-latest
+        environment: prod
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Deploy to dev
+              run: echo "Deploying to the dev environment"
