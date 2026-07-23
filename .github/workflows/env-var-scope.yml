@@ -1,0 +1,23 @@
+name: Env variables scope
+
+on: workflow_dispatch
+
+env:
+    WORKFLOW_ENV_VAR: 'workflow-level-var'
+
+jobs:
+    print:
+        runs-on: ubuntu-latest
+
+        env:
+            JOB_ENV_VAR: 'job-level-var'
+
+        steps:
+            - name: Display environment variables
+              env:
+                STEP_ENV_VAR: 'step-level-var'
+
+              run: |
+                echo "Workflow level var is: $WORKFLOW_ENV_VAR"
+                echo "Workflow level var is: $JOB_ENV_VAR"
+                echo "Workflow level var is: $STEP_ENV_VAR"
