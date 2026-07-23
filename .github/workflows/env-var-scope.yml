@@ -9,6 +9,8 @@ jobs:
     print:
         runs-on: ubuntu-latest
 
+        environment: dev
+
         env:
             JOB_ENV_VAR: 'job-level-var'
 
@@ -16,8 +18,10 @@ jobs:
             - name: Display environment variables
               env:
                 STEP_ENV_VAR: 'step-level-var'
+                ENV: ${{vars.ENV}}
 
               run: |
+                echo "Repo level var is: $ENV"
                 echo "Workflow level var is: $WORKFLOW_ENV_VAR"
-                echo "Workflow level var is: $JOB_ENV_VAR"
-                echo "Workflow level var is: $STEP_ENV_VAR"
+                echo "Job level var is: $JOB_ENV_VAR"
+                echo "Step level var is: $STEP_ENV_VAR"
