@@ -4,8 +4,8 @@ setup(
     name="upper_project",  # Name of your package
     version="0.1",  # Version of your package
     description="A Python module to convert user provided arguments to uppercase.",  # Short description
-    author="Prasad Honrao",  
-    author_email="honrao.prasad@gmail.com",  
+    author="Tushar P",  
+    author_email="tushar.p@gmail.com",  
     packages=find_packages(),  # Automatically discover all packages and subpackages
     install_requires=[],  # List of dependencies (leave empty if there are none)
     entry_points={
