@@ -32,6 +32,7 @@ jobs:
 
             - name: Run unit tests
               run: python -m unittest discover tests
+              working-directory: src/python/upper_project
 
             - name: Install pyinstaller
               run: pip install pyinstaller
