@@ -54,6 +54,6 @@ jobs:
           run: |
             cd ${{env.CONTEXT_PATH}}
             TAG=${{github.sha}}
-            docker build -t ${{env.DOCKER_IMAGE}}:$TAG -t ${{env.DOCKER_IMAGE}}:latest
+            docker build -t ${{env.DOCKER_IMAGE}}:$TAG -t ${{env.DOCKER_IMAGE}}:latest .
             docker push ${{env.DOCKER_IMAGE}}:$TAG
             docker push ${{env.DOCKER_IMAGE}}:latest
