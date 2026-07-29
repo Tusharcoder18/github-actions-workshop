@@ -8,7 +8,7 @@ on:
             - 'src/react/react-tic-tac-toe/**'
 
 env:
-    DOCKER_IMAGE: tusharpulakala/react-tic-tac-toe
+    DOCKER_IMAGE: ${{secrets.DOCKER_USERNAME}}/react-tic-tac-toe
     CONTEXT_PATH: ./src/react/react-tic-tac-toe
     CI: false
 
