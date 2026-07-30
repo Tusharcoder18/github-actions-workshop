@@ -1,0 +1,22 @@
+name: Pull Request event
+
+on:
+    pull_request:
+        branches: main
+
+jobs:
+    create-environment:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Set environment name
+              run: |
+                PR_NUM = ${{ github.event.pull_request.number }}
+                echo "environment-name=pr-${PR_NUM}" >> $GITHUB_ENV
+
+            - name: Deploy application
+              run: |
+                echo "Deploying application to env: ${{ env.environment-name }}"
