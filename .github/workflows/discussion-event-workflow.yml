@@ -10,9 +10,6 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - name: Print full event payload
-              run: echo "Full event payload - ${{ toJson(github.event) }}"
-            
             - name: Print discussion metadata
               run: |
                 echo "Event type: ${{ github.event.action }}"
