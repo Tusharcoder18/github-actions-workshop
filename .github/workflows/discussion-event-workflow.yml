@@ -1,0 +1,36 @@
+name: Handle Github Discussion Events
+
+on:
+    discussion:
+        types: [created, edited, deleted]
+
+
+jobs:
+    handle-discussions:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Print full event payload
+              run: |
+                echo "Full event payload: "
+                echo "${{toJson(github.event)}}"
+            
+            - name: Print discussion metadata
+              run: |
+                echo "Event type: ${{ github.event.action }}"
+                echo "Title: ${{ github.event.discussion.title }}"
+                echo "Author: ${{ github.event.discussion.user.login }}"
+                echo "Category: ${{ github.event.discussion.category }}"
+                echo "Body: ${{ github.event.discussion.body }}"
+
+            - name: On create
+              if: github.event.action == 'created'
+              run: echo "Discussion created"
+
+            - name: On edit
+              if: github.event.action == 'edited'
+              run: echo "Discussion edited"
+
+            - name: On delete
+              if: github.event.action == 'deleted'
+              run: echo "Discussion deleted"
