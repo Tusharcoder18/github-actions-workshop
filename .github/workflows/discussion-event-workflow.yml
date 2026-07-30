@@ -20,7 +20,7 @@ jobs:
                 echo "Event type: ${{ github.event.action }}"
                 echo "Title: ${{ github.event.discussion.title }}"
                 echo "Author: ${{ github.event.discussion.user.login }}"
-                echo "Category: ${{ github.event.discussion.category }}"
+                echo "Category: ${{ github.event.discussion.category.name }}"
                 echo "Body: ${{ github.event.discussion.body }}"
 
             - name: On create
