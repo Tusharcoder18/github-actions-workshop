@@ -1,0 +1,9 @@
+name: Reusable workflow echo caller
+
+on: workflow_dispatch
+
+jobs:
+    call-workflow:
+        uses: ./.github/workflows/reusable-workflow-echo.yml
+        with:
+            user-input: 'Hello world!!!'
