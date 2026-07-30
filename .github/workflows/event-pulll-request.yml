@@ -14,7 +14,7 @@ jobs:
 
             - name: Set environment name
               run: |
-                PR_NUM = ${{ github.event.pull_request.number }}
+                PR_NUM=${{ github.event.pull_request.number }}
                 echo "environment-name=pr-${PR_NUM}" >> $GITHUB_ENV
 
             - name: Deploy application
