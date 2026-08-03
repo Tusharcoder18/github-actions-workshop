@@ -16,7 +16,7 @@ jobs:
             - name: Run TODO Checker Action
               uses: './.github/actions/todo-checker-javascript-action'
               with:
-                src-folder: './src'
+                src-path: './src'
             
             - name: Display completed tasks
               run: echo "Completed TODO Check. See the results above."
