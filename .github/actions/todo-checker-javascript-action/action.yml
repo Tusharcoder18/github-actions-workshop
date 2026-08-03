@@ -1,10 +1,10 @@
-name: 'TODO Checker JavaScript Action'
-description: 'Checks for TODO comments in your codebase.'
+name: TODO Checker Javascript Action
+description: Checks for TODO Comments in your codebase
 inputs:
-  path:
-    description: 'Path to the files to check'
+  src-path:
+    description: Path to the files to Check
     required: true
-    default: './'
+    default: ./src
 runs:
   using: 'node16'
   main: 'dist/index.js'

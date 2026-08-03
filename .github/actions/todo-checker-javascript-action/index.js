@@ -1,7 +1,8 @@
-const core = require('@actions/core');
+const core = require('./@actions/core');
 const fs = require('fs');
 const path = require('path');
 
+// Function to get all files from a directory recursively
 async function getAllFiles(dirPath) {
   let files = await fs.promises.readdir(dirPath, { withFileTypes: true });
   let filePaths = [];
@@ -16,6 +17,7 @@ async function getAllFiles(dirPath) {
   return filePaths;
 }
 
+// Function to find TODO comments in files
 async function findTodosInFiles(files) {
   const todoPattern = /\/\/\s*TODO:.*/g; // Pattern to find TODO comments
   let todos = [];
@@ -33,6 +35,7 @@ async function findTodosInFiles(files) {
   return todos;
 }
 
+// Main function to run the action
 async function run() {
   try {
     const srcFolder = core.getInput('src-folder') || './src';
