@@ -1,0 +1,22 @@
+name: TODO Checker Workflow
+
+on:
+    workflow_dispatch:
+    push:
+        paths:
+            - '.github/actions/todo-checker-javascript-action/**'
+
+jobs:
+    todo-checker:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Run TODO Checker Action
+              uses: './github/actions/todo-checker-javascript-action'
+              with:
+                src-folder: './src'
+            
+            - name: Display completed tasks
+              run: echo "Completed TODO Check. See the results above."
