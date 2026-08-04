@@ -16,7 +16,6 @@ jobs:
         uses: ./github/actions/print-message-and-time-composite-action
         with:
           message: "Hello from Composite Action!"
-
-      # Step 3: Access and display the output of the composite action
+      
       - name: Print the timestamp
-        run: echo "The timestamp is: ${{ steps.composite-action.outputs.timestamp }}"
+        run: echo "The timestamp is ${{ steps.composite-action.outputs.timestamp }}"
