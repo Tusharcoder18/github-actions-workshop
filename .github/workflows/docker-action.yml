@@ -1,0 +1,20 @@
+name: Custom Action - Docker - Print Message
+
+on:
+    workflow_dispatch:
+    push:
+        paths:
+            - './github/actions/print-message-container-action/**'
+
+jobs:
+    hello-docker:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Run Hello Docker Action
+              uses: ./.github/actions/print-message-container-action
+              with:
+                message: 'Hello World from Docker Image'
