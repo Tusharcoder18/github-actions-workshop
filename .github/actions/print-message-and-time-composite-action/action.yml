@@ -1,6 +1,5 @@
 name: 'Print Message and Time'
 description: 'Prints a custom message and the current date/time'
-author: 'Prasad Honrao'
 inputs:
   message:
     description: 'The message to print'
